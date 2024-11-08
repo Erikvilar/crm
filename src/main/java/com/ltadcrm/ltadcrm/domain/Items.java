@@ -14,11 +14,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Entity
-@Data
+@Entity(name = "Items")
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "db_items")
+@Table(name = "tb_items")
 public class Items {
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,13 +32,13 @@ public class Items {
     @JsonProperty("observação")
     private String observation;
     @Column(name= "pathImage_item")
-    @JsonProperty("Image")
+    @JsonProperty("imagem")
     private String pathImage;
     @Column(name= "sde_item")
     @JsonProperty("SDE")
     private Long sde;
     @Column(name= "orderOrigin_item")
-    @JsonProperty("Pedido")
+    @JsonProperty("pedido")
     private String pedido;
     @Column(name= "status_item")
     @JsonProperty("status")
@@ -47,19 +46,20 @@ public class Items {
     @Column(name= "nf_invoice_item")
     @JsonProperty("NF_INVOICE")
     private String nfInvoice;
-
+    @Column(name= "value_item")
+    @JsonProperty("valor")
     private Double value;
     /*
      * @Definindo relacionamentos para a a tabela items(Patrimonios)
      */
     @ManyToOne
-    @JoinColumn(name = "idDescriptions")
+    @JoinColumn(name = "id_description")
     private Descriptions descriptions;
     @ManyToOne
-    @JoinColumn(name = "idUsers")
+    @JoinColumn(name = "id_users")
     private Users users;
     @ManyToOne
-    @JoinColumn(name = "idCostCenter")
+    @JoinColumn(name = "id_costCenter")
     private CostCenter costCenter;
 
 }

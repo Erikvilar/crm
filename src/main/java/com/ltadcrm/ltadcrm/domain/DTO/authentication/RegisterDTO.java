@@ -1,4 +1,4 @@
-package com.ltadcrm.ltadcrm.domain.DTO;
+package com.ltadcrm.ltadcrm.domain.DTO.authentication;
 
 import com.ltadcrm.ltadcrm.domain.Enums.AccountRoles;
 

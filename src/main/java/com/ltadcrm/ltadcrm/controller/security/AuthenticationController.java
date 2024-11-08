@@ -5,8 +5,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ltadcrm.ltadcrm.config.security.TokenService;
 import com.ltadcrm.ltadcrm.domain.Account;
-import com.ltadcrm.ltadcrm.domain.DTO.AuthenticationDTO;
-import com.ltadcrm.ltadcrm.domain.DTO.RegisterDTO;
+import com.ltadcrm.ltadcrm.domain.DTO.authentication.AuthenticationDTO;
+import com.ltadcrm.ltadcrm.domain.DTO.authentication.RegisterDTO;
 import com.ltadcrm.ltadcrm.repository.security.AccountRepository;
 
 import jakarta.servlet.http.HttpServletResponse;
