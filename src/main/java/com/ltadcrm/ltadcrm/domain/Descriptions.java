@@ -16,12 +16,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "tb_description")
+@Data
 public class Descriptions {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Id
+  
     @Column(name = "id_description")
     @JsonProperty("id")
-    private Long idDescription;
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     @Column(name = "model_description")
     @JsonProperty("modelo")
     private String model;

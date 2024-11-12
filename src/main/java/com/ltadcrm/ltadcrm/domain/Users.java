@@ -9,18 +9,20 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity(name="Users")
 @NoArgsConstructor
 @AllArgsConstructor
+@Data
 @Table(name="tb_users")
 public class Users {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Id
+
     @Column(name= "id_users")
-    @JsonProperty("id")
-    private Long idUsers;
+    @JsonProperty("id_usuario")
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     @Column(name= "name_users")
     @JsonProperty("usuario")
     private String name;

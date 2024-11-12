@@ -4,13 +4,28 @@ import java.sql.Date;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public record CostCenterDTO(
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-        @JsonProperty("id") Long idCostCenter,
-        @JsonProperty("nome") String name,
-        @JsonProperty("identificação") String identification,
-        @JsonProperty("Data de inicio") Date initialDate,
-        @JsonProperty("Data de fim") Date endDate)
 
-{
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class CostCenterDTO{
+        @JsonProperty("id_centro_custo")
+        private Long costCenterId;
+    
+        @JsonProperty("nome_centro_custo")
+        private String costCenterName;
+    
+        @JsonProperty("identificacao_centro_custo")
+        private String costCenterIdentification;
+    
+        @JsonProperty("data_inicio_centro_custo")
+        private Date costCenterStartDate;
+    
+        @JsonProperty("data_fim_centro_custo")
+        private Date costCenterEndDate;
+
 }

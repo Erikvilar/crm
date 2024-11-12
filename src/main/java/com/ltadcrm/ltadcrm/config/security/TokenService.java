@@ -6,7 +6,7 @@ import java.time.ZonedDateTime;
 
 import org.springframework.beans.factory.annotation.Value;
 
-import org.springframework.security.oauth2.jwt.JwtException;
+
 import org.springframework.stereotype.Service;
 
 import com.auth0.jwt.JWT;
@@ -24,17 +24,15 @@ public class TokenService {
     public String generatedToken(Account account) {
         try {
             Algorithm algorithm = Algorithm.HMAC256(secret);
-             String token  = JWT.create()
+            String token = JWT.create()
                     .withIssuer("ltadcrm")
                     .withSubject(account.getLogin())
                     .withExpiresAt(genExpirationDate())
                     .sign(algorithm);
-                    System.out.println(token);
-                    return token;
-          
+            return token.trim();
 
         } catch (JWTCreationException exception) {
-            throw new RuntimeException("Error jwt creation", exception);
+            throw new JWTCreationException("Error jwt creation", exception);
         }
     }
 
@@ -42,22 +40,22 @@ public class TokenService {
 
         try {
             Algorithm algorithm = Algorithm.HMAC256(secret);
-        String subject = JWT.require(algorithm)
+            return JWT.require(algorithm)
                     .withIssuer("ltadcrm")
                     .build()
-                    .verify(token.trim())
+                    .verify(token)
                     .getSubject();
-            return subject;
+
         } catch (JWTVerificationException exception) {
-            System.out.println("Erro ao validar token: " + exception.getMessage());
             return "";
         }
     }
+
     private Instant genExpirationDate() {
 
-    return  ZonedDateTime.now(ZoneOffset.of("-03:00"))  
-            .plusHours(2) 
-            .toInstant();
+        return ZonedDateTime.now(ZoneOffset.of("-03:00"))
+                .plusHours(2)
+                .toInstant();
     }
 
 }

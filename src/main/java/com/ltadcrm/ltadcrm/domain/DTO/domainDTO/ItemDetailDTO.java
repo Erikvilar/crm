@@ -5,7 +5,7 @@ import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import jakarta.persistence.Entity;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,7 +18,7 @@ public class ItemDetailDTO {
 
     // Dados de 'tb_users'
     @JsonProperty("id_usuario")
-    private Long userId;
+    private Long id;
 
     @JsonProperty("nome_usuario")
     private String userName;

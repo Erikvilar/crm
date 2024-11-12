@@ -13,8 +13,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 
 
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -24,39 +22,39 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.GetMapping;
 
-
 @RestController
 @RequestMapping("auth")
 public class AuthenticationController {
 
-    @Autowired
-    private  AuthenticationManager authenticationManager;
+    AuthenticationManager authenticationManager;
+    AccountRepository accountRepository;
+    TokenService tokenService;
 
+    public AuthenticationController(AuthenticationManager authenticationManager, AccountRepository accountRepository,
+            TokenService tokenService) {
+        this.authenticationManager = authenticationManager;
+        this.accountRepository = accountRepository;
+        this.tokenService = tokenService;
 
-    @Autowired
-    private AccountRepository accountRepository;
-
-    @Autowired
-    private TokenService tokenService;
+    }
 
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody @Valid AuthenticationDTO data, HttpServletResponse response) {
-        try{
+        try {
             var usernamePassword = new UsernamePasswordAuthenticationToken(data.login(), data.password());
-            System.out.println("tentativa de login registrada");
             var auth = authenticationManager.authenticate(usernamePassword);
-            var token = tokenService.generatedToken((Account)auth.getPrincipal());
-            return  ResponseEntity.ok(token);
-            
-        }
-        catch(Exception e){
-            return new ResponseEntity<>("erro >> "+e.getMessage(), HttpStatus.BAD_REQUEST);
+            var token = tokenService.generatedToken((Account) auth.getPrincipal());
+            return ResponseEntity.ok(token);
+
+        } catch (Exception e) {
+            return new ResponseEntity<>("erro >> " + e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
     @PostMapping("/cadastrar")
-    public ResponseEntity register(@RequestBody @Valid RegisterDTO register) {
-        if (this.accountRepository.findByLogin(register.login()) != null)return new ResponseEntity<>("Usuário já existente localizado", HttpStatus.BAD_REQUEST);
+    public ResponseEntity<?> register(@RequestBody @Valid RegisterDTO register) {
+        if (this.accountRepository.findByLogin(register.login()) != null)
+            return new ResponseEntity<>("Usuário já existente localizado", HttpStatus.BAD_REQUEST);
 
         String encrypt = new BCryptPasswordEncoder().encode(register.password());
         Account user = new Account(register.login(), encrypt, register.role());
@@ -68,14 +66,11 @@ public class AuthenticationController {
 
     @GetMapping("/teste")
     public ResponseEntity<String> getMethodName() {
-        try{
-            return new ResponseEntity<>("Teste de login",HttpStatus.OK);
+        try {
+            return new ResponseEntity<>("Teste de login", HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Nao autorizado " + e.getMessage(), HttpStatus.BAD_REQUEST);
         }
-        catch(Exception e){
-            return new ResponseEntity<>("Nao autorizado "+e.getMessage(), HttpStatus.BAD_REQUEST);
-        }
-    
+
     }
 }
-
-

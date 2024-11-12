@@ -1,10 +1,22 @@
 package com.ltadcrm.ltadcrm.domain.DTO.domainDTO;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-public record UsersDTO(
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 
-        @JsonProperty("id") Long idUsers,
-        @JsonProperty("usuario") String name,
-        @JsonProperty("tipo") String type) {
+public class UsersDTO {
+
+        @JsonProperty("id_usuario")
+        private Long id;
+    
+        @JsonProperty("nome_usuario")
+        private String userName;
+    
+        @JsonProperty("tipo_usuario")
+        private String userType;
 }

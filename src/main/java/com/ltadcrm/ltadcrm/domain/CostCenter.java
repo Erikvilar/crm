@@ -21,11 +21,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Table(name = "tb_costCenter")
 public class CostCenter {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Id
+
     @Column(name= "id_cost_center")
     @JsonProperty("id")
-    private Long idCostCenter;
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     @Column(name= "name_costCenter")
     @JsonProperty("nome")
     private String name;

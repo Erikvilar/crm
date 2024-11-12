@@ -20,13 +20,13 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "tb_items")
+@Data
 public class Items {
 
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Id
     @Column(name= "id_items")
-    @JsonProperty("id")
-    private Long idItems;
+    @JsonProperty("id_items")
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     @Column(name= "code_item")
     @JsonProperty("patrimonio")
     private String number;
@@ -41,7 +41,7 @@ public class Items {
     private Long sde;
     @Column(name= "orderOrigin_item")
     @JsonProperty("pedido")
-    private String pedido;
+    private String order;
     @Column(name= "status_item")
     @JsonProperty("status")
     private String status;

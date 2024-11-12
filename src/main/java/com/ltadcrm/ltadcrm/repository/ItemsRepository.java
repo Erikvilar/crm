@@ -1,7 +1,7 @@
 package com.ltadcrm.ltadcrm.repository;
 
 import java.util.List;
-
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -18,5 +18,7 @@ public interface ItemsRepository extends CrudRepository<Items, Long> {
     @Query(value = "CALL GetAllItems()", nativeQuery = true)
     List<Tuple>findAllItemsDTOs();
 
+    Optional<Items> findAllById(Long id);
+    
 
 }

@@ -18,14 +18,15 @@ import lombok.NoArgsConstructor;
 @Entity(name="Contacts")
 @NoArgsConstructor
 @AllArgsConstructor
+@Data
 @Table(name= "tb_contact")
 public class Contacts implements Serializable{
    
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Id
+
     @Column(name= "id_contact")
     @JsonProperty("id")
-    private Long idContacts;
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     @Column(name= "email_contact")
     @JsonProperty("email")
     private String email;

@@ -1,31 +1,47 @@
 package com.ltadcrm.ltadcrm.domain.DTO.domainDTO;
 
-import com.ltadcrm.ltadcrm.domain.Contacts;
-import com.ltadcrm.ltadcrm.domain.CostCenter;
-import com.ltadcrm.ltadcrm.domain.Descriptions;
-import com.ltadcrm.ltadcrm.domain.Users;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
+public class ItemsDTO{
+
+    @JsonProperty("id_item")
+    private Long itemId;
+
+    @JsonProperty("nf_invoice_item")
+    private String nfInvoice;
+
+    @JsonProperty("codigo_item")
+    private String code;
+
+    @JsonProperty("observacao_item")
+    private String observation;
+
+    @JsonProperty("caminho_imagem_item")
+    private String imagePath;
+
+    @JsonProperty("pedido_origem")
+    private String orderOrigin;
+
+    @JsonProperty("sde_item")
+    private Long sde;
+
+    @JsonProperty("status_item")
+    private String status;
+
+    @JsonProperty("valor_item")
+    private Double value;
 
 
-public record ItemsDTO(
-
-                Long idUsers,
-                String name,
-                String observation,
-                String type,
-
-                Long itemId,
-                String nfInvoiceItem,
-                String codeItem,
-                String observationItem,
-                String pathImageItem,
-                String orderOriginItem,
-                String sdeItem,
-                String statusItem,
-                Double valueItem,
-
-                Users user,
-                Descriptions description,
-                CostCenter costCenter
-
-) {
+ 
 }
