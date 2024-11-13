@@ -1,4 +1,4 @@
-package com.ltadcrm.ltadcrm.repository.security;
+package com.ltadcrm.ltadcrm.security.accountRepository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.security.core.userdetails.UserDetails;

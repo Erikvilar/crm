@@ -1,10 +1,10 @@
-package com.ltadcrm.ltadcrm.controller;
+package com.ltadcrm.ltadcrm.controllers;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.ltadcrm.ltadcrm.domain.DTO.domainDTO.ItemDetailDTO;
 import com.ltadcrm.ltadcrm.domain.DTO.domainDTO.UpdateDTO;
-import com.ltadcrm.ltadcrm.service.GeneralService;
+import com.ltadcrm.ltadcrm.usescases.GeneralService;
 
 import jakarta.validation.Valid;
 

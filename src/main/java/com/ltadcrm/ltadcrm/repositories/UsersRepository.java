@@ -1,4 +1,4 @@
-package com.ltadcrm.ltadcrm.repository;
+package com.ltadcrm.ltadcrm.repositories;
 
 import java.util.Optional;
 

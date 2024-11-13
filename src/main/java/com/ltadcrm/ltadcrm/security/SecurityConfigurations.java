@@ -1,4 +1,4 @@
-package com.ltadcrm.ltadcrm.config.security;
+package com.ltadcrm.ltadcrm.security;
 
 
 import org.springframework.context.annotation.Bean;

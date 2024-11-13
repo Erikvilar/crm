@@ -1,4 +1,4 @@
-package com.ltadcrm.ltadcrm.service.security;
+package com.ltadcrm.ltadcrm.security.service;
 
 
 import org.springframework.security.core.userdetails.UserDetails;
@@ -6,7 +6,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.ltadcrm.ltadcrm.repository.security.AccountRepository;
+import com.ltadcrm.ltadcrm.security.accountRepository.AccountRepository;
 
 @Service
 public class AuthorizationService implements UserDetailsService {

@@ -1,4 +1,4 @@
-package com.ltadcrm.ltadcrm.service;
+package com.ltadcrm.ltadcrm.usescases;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -19,11 +19,11 @@ import com.ltadcrm.ltadcrm.domain.DTO.domainDTO.ItemDetailDTO;
 import com.ltadcrm.ltadcrm.domain.DTO.domainDTO.ItemsDTO;
 import com.ltadcrm.ltadcrm.domain.DTO.domainDTO.UpdateDTO;
 import com.ltadcrm.ltadcrm.domain.DTO.domainDTO.UsersDTO;
-import com.ltadcrm.ltadcrm.repository.ContactsRepository;
-import com.ltadcrm.ltadcrm.repository.CostCenterRepository;
-import com.ltadcrm.ltadcrm.repository.DescriptionsRepository;
-import com.ltadcrm.ltadcrm.repository.ItemsRepository;
-import com.ltadcrm.ltadcrm.repository.UsersRepository;
+import com.ltadcrm.ltadcrm.repositories.ContactsRepository;
+import com.ltadcrm.ltadcrm.repositories.CostCenterRepository;
+import com.ltadcrm.ltadcrm.repositories.DescriptionsRepository;
+import com.ltadcrm.ltadcrm.repositories.ItemsRepository;
+import com.ltadcrm.ltadcrm.repositories.UsersRepository;
 
 import jakarta.persistence.Tuple;
 
@@ -90,75 +90,27 @@ public class GeneralService {
             throw new Exception("Current error in ItemService " + e);
         }
     }
-
+        //on refatoring proccess 
     public void updateAllItems(UpdateDTO updateDTO) throws Exception{
       try {
-            // Verificar e atualizar o item
-            if (updateDTO.getItemsDTO() == null || updateDTO.getItemsDTO().getItemId() == null) {
-                throw new Exception("ID do item não informado ou nulo");
-            }
             
             Optional<Items> optionalItem = itemsRepository.findById(updateDTO.getItemsDTO().getItemId());
-            if (!optionalItem.isPresent()) {
-                throw new Exception("Item com ID " + updateDTO.getItemsDTO().getItemId() + " não encontrado");
-            }
-
             Items items = optionalItem.get();
             updateItemsWithDTO(items, updateDTO.getItemsDTO());
             itemsRepository.save(items);
-            
-            // Verificar e atualizar o usuário
-            if (updateDTO.getUsersDTO() == null || updateDTO.getUsersDTO().getId() == null) {
-                throw new Exception("ID do usuário não informado ou nulo");
-            }
-
             Optional<Users> optionalUser = usersRepository.findById(updateDTO.getUsersDTO().getId());
-            if (!optionalUser.isPresent()) {
-                throw new Exception("Usuário com ID " + updateDTO.getUsersDTO().getId() + " não encontrado");
-            }
-
             Users user = optionalUser.get();
             updateUserWithDTO(user, updateDTO.getUsersDTO());
             usersRepository.save(user);
-
-            // Verificar e atualizar a descrição
-            if (updateDTO.getDescriptionsDTO() == null || updateDTO.getDescriptionsDTO().getDescriptionId() == null) {
-                throw new Exception("ID da descrição não informado ou nulo");
-            }
-
             Optional<Descriptions> optionalDescription = descriptionsRepository.findById(updateDTO.getDescriptionsDTO().getDescriptionId());
-            if (!optionalDescription.isPresent()) {
-                throw new Exception("Descrição com ID " + updateDTO.getDescriptionsDTO().getDescriptionId() + " não encontrada");
-            }
-
             Descriptions description = optionalDescription.get();
             updateDescriptionWithDTO(description, updateDTO.getDescriptionsDTO());
             descriptionsRepository.save(description);
-
-            // Verificar e atualizar o centro de custo
-            if (updateDTO.getCostCenterDTO() == null || updateDTO.getCostCenterDTO().getCostCenterId() == null) {
-                throw new Exception("ID do centro de custo não informado ou nulo");
-            }
-
             Optional<CostCenter> optionalCostCenter = costCenterRepository.findById(updateDTO.getCostCenterDTO().getCostCenterId());
-            if (!optionalCostCenter.isPresent()) {
-                throw new Exception("Centro de custo com ID " + updateDTO.getCostCenterDTO().getCostCenterId() + " não encontrado");
-            }
-
             CostCenter costCenter = optionalCostCenter.get();
             updateCostCenterWithDTO(costCenter, updateDTO.getCostCenterDTO());
             costCenterRepository.save(costCenter);
-
-            // Verificar e atualizar o contato
-            if (updateDTO.getContactsDTO() == null || updateDTO.getContactsDTO().getContactId() == null) {
-                throw new Exception("ID do contato não informado ou nulo");
-            }
-
             Optional<Contacts> optionalContact = contactsRepository.findById(updateDTO.getContactsDTO().getContactId());
-            if (!optionalContact.isPresent()) {
-                throw new Exception("Contato com ID " + updateDTO.getContactsDTO().getContactId() + " não encontrado");
-            }
-
             Contacts contact = optionalContact.get();
             updateContactWithDTO(contact, updateDTO.getContactsDTO());
             contactsRepository.save(contact);
@@ -168,7 +120,6 @@ public class GeneralService {
         }
     }
 
-    // Métodos auxiliares para atualizar entidades com dados dos DTOs
     private void updateItemsWithDTO(Items items, ItemsDTO itemsDTO) {
         items.setNfInvoice(itemsDTO.getNfInvoice());
         items.setNumber(itemsDTO.getCode());

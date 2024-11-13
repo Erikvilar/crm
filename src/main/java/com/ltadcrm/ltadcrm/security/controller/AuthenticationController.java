@@ -1,17 +1,16 @@
-package com.ltadcrm.ltadcrm.controller.security;
+package com.ltadcrm.ltadcrm.security.controller;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ltadcrm.ltadcrm.config.security.TokenService;
 import com.ltadcrm.ltadcrm.domain.Account;
 import com.ltadcrm.ltadcrm.domain.DTO.authentication.AuthenticationDTO;
 import com.ltadcrm.ltadcrm.domain.DTO.authentication.RegisterDTO;
-import com.ltadcrm.ltadcrm.repository.security.AccountRepository;
+import com.ltadcrm.ltadcrm.security.JWT.TokenService;
+import com.ltadcrm.ltadcrm.security.accountRepository.AccountRepository;
 
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
-
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

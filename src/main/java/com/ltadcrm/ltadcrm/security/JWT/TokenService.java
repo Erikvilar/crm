@@ -1,4 +1,4 @@
-package com.ltadcrm.ltadcrm.config.security;
+package com.ltadcrm.ltadcrm.security.JWT;
 
 import java.time.Instant;
 import java.time.ZoneOffset;
