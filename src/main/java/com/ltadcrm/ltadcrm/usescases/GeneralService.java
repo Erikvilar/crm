@@ -1,7 +1,8 @@
 package com.ltadcrm.ltadcrm.usescases;
 
+
 import java.util.ArrayList;
-import java.util.Date;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -12,6 +13,7 @@ import com.ltadcrm.ltadcrm.domain.CostCenter;
 import com.ltadcrm.ltadcrm.domain.Descriptions;
 import com.ltadcrm.ltadcrm.domain.Items;
 import com.ltadcrm.ltadcrm.domain.Users;
+
 import com.ltadcrm.ltadcrm.domain.DTO.domainDTO.ContactsDTO;
 import com.ltadcrm.ltadcrm.domain.DTO.domainDTO.CostCenterDTO;
 import com.ltadcrm.ltadcrm.domain.DTO.domainDTO.DescriptionsDTO;
@@ -25,6 +27,8 @@ import com.ltadcrm.ltadcrm.repositories.DescriptionsRepository;
 import com.ltadcrm.ltadcrm.repositories.ItemsRepository;
 import com.ltadcrm.ltadcrm.repositories.UsersRepository;
 
+import com.ltadcrm.ltadcrm.usescases.strategy.ItemDetailsDTOConvertImpl;
+
 import jakarta.persistence.Tuple;
 
 @Service
@@ -35,54 +39,33 @@ public class GeneralService {
     CostCenterRepository costCenterRepository;
     ContactsRepository contactsRepository;
     DescriptionsRepository descriptionsRepository;
+    ItemDetailsDTOConvertImpl convert;
 
     public GeneralService(
             ItemsRepository itemsRepository,
             UsersRepository usersRepository,
             DescriptionsRepository descriptionsRepository,
             CostCenterRepository costCenterRepository,
-            ContactsRepository contactsRepository) {
+            ContactsRepository contactsRepository,
+            ItemDetailsDTOConvertImpl convert
+          
+            ) {
+  
         this.itemsRepository = itemsRepository;
         this.usersRepository = usersRepository;
         this.descriptionsRepository = descriptionsRepository;
         this.costCenterRepository = costCenterRepository;
         this.contactsRepository = contactsRepository;
+        this.convert = convert;
 
     }
 
-    public List<ItemDetailDTO> getItemDetails() throws Exception {
+    public List<ItemDetailDTO> listAll() throws Exception {
         try {
-            List<Tuple> tuples = itemsRepository.findAllItemsDTOs();
+          
             List<ItemDetailDTO> dtos = new ArrayList<>();
-            for (Tuple tuple : tuples) {
-                ItemDetailDTO dto = new ItemDetailDTO(
-                        tuple.get("id_usuario", Long.class),
-                        tuple.get("nome_usuario", String.class),
-                        tuple.get("tipo_usuario", String.class),
-                        tuple.get("id_item", Long.class),
-                        tuple.get("nf_invoice_item", String.class),
-                        tuple.get("codigo_item", String.class),
-                        tuple.get("observacao_item", String.class),
-                        tuple.get("caminho_imagem_item", String.class),
-                        tuple.get("pedido_origem", String.class),
-                        tuple.get("sde_item", Long.class),
-                        tuple.get("status_item", String.class),
-                        tuple.get("valor_item", Double.class),
-                        tuple.get("id_descricao", Long.class),
-                        tuple.get("marca_descricao", String.class),
-                        tuple.get("descricao_item", String.class),
-                        tuple.get("localizacao_descricao", String.class),
-                        tuple.get("modelo_descricao", String.class),
-                        tuple.get("serie_descricao", String.class),
-                        tuple.get("id_centro_custo", Long.class),
-                        tuple.get("nome_centro_custo", String.class),
-                        tuple.get("identificacao_centro_custo", String.class),
-                        tuple.get("data_inicio_centro_custo", Date.class),
-                        tuple.get("data_fim_centro_custo", Date.class),
-                        tuple.get("id_contato", Long.class),
-                        tuple.get("email_contato", String.class),
-                        tuple.get("ocupacao_contato", String.class),
-                        tuple.get("telefone_contato", String.class));
+            for (Tuple tuple :  itemsRepository.findAllItemsDTOs()) {
+                ItemDetailDTO dto = convert.convert(tuple);
                 dtos.add(dto);
             }
             return dtos;
@@ -90,23 +73,27 @@ public class GeneralService {
             throw new Exception("Current error in ItemService " + e);
         }
     }
-        //on refatoring proccess 
-    public void updateAllItems(UpdateDTO updateDTO) throws Exception{
-      try {
-            
+
+    // on refatoring proccess
+    public void updateAllItems(UpdateDTO updateDTO) throws Exception {
+        try {
+
             Optional<Items> optionalItem = itemsRepository.findById(updateDTO.getItemsDTO().getItemId());
             Items items = optionalItem.get();
+
             updateItemsWithDTO(items, updateDTO.getItemsDTO());
             itemsRepository.save(items);
             Optional<Users> optionalUser = usersRepository.findById(updateDTO.getUsersDTO().getId());
             Users user = optionalUser.get();
             updateUserWithDTO(user, updateDTO.getUsersDTO());
             usersRepository.save(user);
-            Optional<Descriptions> optionalDescription = descriptionsRepository.findById(updateDTO.getDescriptionsDTO().getDescriptionId());
+            Optional<Descriptions> optionalDescription = descriptionsRepository
+                    .findById(updateDTO.getDescriptionsDTO().getDescriptionId());
             Descriptions description = optionalDescription.get();
             updateDescriptionWithDTO(description, updateDTO.getDescriptionsDTO());
             descriptionsRepository.save(description);
-            Optional<CostCenter> optionalCostCenter = costCenterRepository.findById(updateDTO.getCostCenterDTO().getCostCenterId());
+            Optional<CostCenter> optionalCostCenter = costCenterRepository
+                    .findById(updateDTO.getCostCenterDTO().getCostCenterId());
             CostCenter costCenter = optionalCostCenter.get();
             updateCostCenterWithDTO(costCenter, updateDTO.getCostCenterDTO());
             costCenterRepository.save(costCenter);
@@ -129,11 +116,14 @@ public class GeneralService {
         items.setSde(itemsDTO.getSde());
         items.setStatus(itemsDTO.getStatus());
         items.setValue(itemsDTO.getValue());
+        items.setLastModification(itemsDTO.getLastModification());
+
     }
 
     private void updateUserWithDTO(Users user, UsersDTO usersDTO) {
         user.setName(usersDTO.getUserName());
         user.setType(usersDTO.getUserType());
+        user.setLastModification(usersDTO.getLastModification());
     }
 
     private void updateDescriptionWithDTO(Descriptions description, DescriptionsDTO descriptionsDTO) {
@@ -142,6 +132,7 @@ public class GeneralService {
         description.setLocal(descriptionsDTO.getLocation());
         description.setModel(descriptionsDTO.getModel());
         description.setSerie(descriptionsDTO.getSeries());
+        description.setLastModification(descriptionsDTO.getLastModification());
     }
 
     private void updateCostCenterWithDTO(CostCenter costCenter, CostCenterDTO costCenterDTO) {
@@ -149,12 +140,14 @@ public class GeneralService {
         costCenter.setIdentification(costCenterDTO.getCostCenterIdentification());
         costCenter.setInitialDate(costCenterDTO.getCostCenterStartDate());
         costCenter.setEndDate(costCenterDTO.getCostCenterEndDate());
+        costCenter.setLastModification(costCenter.getLastModification());
     }
 
     private void updateContactWithDTO(Contacts contact, ContactsDTO contactsDTO) {
         contact.setEmail(contactsDTO.getContactEmail());
         contact.setOccupation(contactsDTO.getContactOccupation());
         contact.setPhone(contactsDTO.getContactPhone());
+        contact.setLastModification(contactsDTO.getLastModification());
     }
 
 }

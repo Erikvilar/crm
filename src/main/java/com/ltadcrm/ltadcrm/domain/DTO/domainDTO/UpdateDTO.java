@@ -1,6 +1,12 @@
 package com.ltadcrm.ltadcrm.domain.DTO.domainDTO;
 
 
+import java.time.LocalDateTime;
+
+import org.hibernate.annotations.UpdateTimestamp;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,4 +19,5 @@ public class UpdateDTO {
     private DescriptionsDTO descriptionsDTO;
     private CostCenterDTO costCenterDTO;
     private ContactsDTO contactsDTO;
+   
 }

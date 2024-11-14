@@ -1,7 +1,10 @@
 package com.ltadcrm.ltadcrm.domain.DTO.domainDTO;
 
 
+import java.time.LocalDateTime;
 import java.util.Date;
+
+import org.hibernate.annotations.UpdateTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -101,4 +104,8 @@ public class ItemDetailDTO {
 
     @JsonProperty("telefone_contato")
     private String contactPhone;
+    @JsonProperty("lastModify")
+    private String lastModification;
+    @JsonProperty("updateIn")
+    private LocalDateTime updateIn; 
 }

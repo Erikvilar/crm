@@ -1,5 +1,9 @@
 package com.ltadcrm.ltadcrm.domain;
 
+import java.time.LocalDateTime;
+
+import org.hibernate.annotations.UpdateTimestamp;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.persistence.Column;
@@ -29,4 +33,9 @@ public class Users {
     @Column(name= "type_users")
     @JsonProperty("tipo")
     private String type;
+    @Column(name = "last_modify")
+    private String lastModification;
+    @Column(name = "update_in")
+    @UpdateTimestamp
+    private LocalDateTime updateIn;
 }

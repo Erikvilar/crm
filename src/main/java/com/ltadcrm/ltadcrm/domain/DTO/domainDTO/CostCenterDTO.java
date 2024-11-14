@@ -1,6 +1,7 @@
 package com.ltadcrm.ltadcrm.domain.DTO.domainDTO;
 
 import java.sql.Date;
+import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -27,5 +28,8 @@ public class CostCenterDTO{
     
         @JsonProperty("data_fim_centro_custo")
         private Date costCenterEndDate;
-
+  @JsonProperty("lastModify")
+    private String lastModification;
+    @JsonProperty("updateIn")
+    private LocalDateTime updateIn; 
 }

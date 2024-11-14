@@ -28,9 +28,9 @@ public class GeneralController {
         this.generalService = generalService;
     }
 
-    @GetMapping("/")
+    @GetMapping
     public ResponseEntity<List<ItemDetailDTO>> showAllDTO() throws Exception {
-        return new ResponseEntity<>(generalService.getItemDetails(), HttpStatus.OK);
+        return new ResponseEntity<>(generalService.listAll(), HttpStatus.OK);
 
     }
 

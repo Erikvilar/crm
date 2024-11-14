@@ -1,7 +1,13 @@
 package com.ltadcrm.ltadcrm.domain.DTO.domainDTO;
 
+import java.time.LocalDateTime;
+import java.util.Date;
+
+import org.hibernate.annotations.UpdateTimestamp;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
@@ -41,6 +47,11 @@ public class ItemsDTO{
 
     @JsonProperty("valor_item")
     private Double value;
+    @JsonProperty("lastModify")
+    private String lastModification;
+    @JsonProperty("updateIn")
+    @UpdateTimestamp
+    private LocalDateTime updateIn;
 
 
  
