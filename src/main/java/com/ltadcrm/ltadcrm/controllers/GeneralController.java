@@ -2,6 +2,8 @@ package com.ltadcrm.ltadcrm.controllers;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.ltadcrm.ltadcrm.domain.DTO.authentication.RegisterDTO;
 import com.ltadcrm.ltadcrm.domain.DTO.domainDTO.ItemDetailDTO;
 import com.ltadcrm.ltadcrm.domain.DTO.domainDTO.UpdateDTO;
 import com.ltadcrm.ltadcrm.usescases.GeneralService;
@@ -35,8 +37,10 @@ public class GeneralController {
     }
 
     @PutMapping("/save")
-    public ResponseEntity<String> postMethodName(@RequestBody @Valid UpdateDTO updateDTO) {
+    public ResponseEntity<String> postMethodName(@RequestBody @Valid UpdateDTO updateDTO, RegisterDTO registerDTO) {
+
         try {
+            updateDTO.setUserLogged(registerDTO.login());
             generalService.updateAllItems(updateDTO);
             return ResponseEntity.ok("Sucesso ao salvar items");
 

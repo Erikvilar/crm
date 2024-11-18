@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ltadcrm.ltadcrm.domain.Account;
 import com.ltadcrm.ltadcrm.domain.DTO.authentication.AuthenticationDTO;
 import com.ltadcrm.ltadcrm.domain.DTO.authentication.RegisterDTO;
+import com.ltadcrm.ltadcrm.domain.DTO.domainDTO.UpdateDTO;
 import com.ltadcrm.ltadcrm.security.JWT.TokenService;
 import com.ltadcrm.ltadcrm.security.accountRepository.AccountRepository;
 
@@ -43,6 +44,7 @@ public class AuthenticationController {
             var usernamePassword = new UsernamePasswordAuthenticationToken(data.login(), data.password());
             var auth = authenticationManager.authenticate(usernamePassword);
             var token = tokenService.generatedToken((Account) auth.getPrincipal());
+        
             return ResponseEntity.ok(token);
 
         } catch (Exception e) {
@@ -53,6 +55,7 @@ public class AuthenticationController {
     @PostMapping("/cadastrar")
     public ResponseEntity<?> register(@RequestBody @Valid RegisterDTO register) {
         if (this.accountRepository.findByLogin(register.login()) != null)
+            
             return new ResponseEntity<>("Usuário já existente localizado", HttpStatus.BAD_REQUEST);
 
         String encrypt = new BCryptPasswordEncoder().encode(register.password());

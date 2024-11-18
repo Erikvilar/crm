@@ -1,6 +1,7 @@
 package com.ltadcrm.ltadcrm.usescases;
 
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 import java.util.List;
@@ -8,12 +9,13 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import com.ltadcrm.ltadcrm.domain.Account;
 import com.ltadcrm.ltadcrm.domain.Contacts;
 import com.ltadcrm.ltadcrm.domain.CostCenter;
 import com.ltadcrm.ltadcrm.domain.Descriptions;
 import com.ltadcrm.ltadcrm.domain.Items;
 import com.ltadcrm.ltadcrm.domain.Users;
-
+import com.ltadcrm.ltadcrm.domain.DTO.authentication.RegisterDTO;
 import com.ltadcrm.ltadcrm.domain.DTO.domainDTO.ContactsDTO;
 import com.ltadcrm.ltadcrm.domain.DTO.domainDTO.CostCenterDTO;
 import com.ltadcrm.ltadcrm.domain.DTO.domainDTO.DescriptionsDTO;
@@ -77,29 +79,29 @@ public class GeneralService {
     // on refatoring proccess
     public void updateAllItems(UpdateDTO updateDTO) throws Exception {
         try {
-
+           
             Optional<Items> optionalItem = itemsRepository.findById(updateDTO.getItemsDTO().getItemId());
             Items items = optionalItem.get();
 
-            updateItemsWithDTO(items, updateDTO.getItemsDTO());
+            updateItemsWithDTO(items, updateDTO.getItemsDTO(), updateDTO.getUpdateAt());
             itemsRepository.save(items);
             Optional<Users> optionalUser = usersRepository.findById(updateDTO.getUsersDTO().getId());
             Users user = optionalUser.get();
-            updateUserWithDTO(user, updateDTO.getUsersDTO());
+            updateUserWithDTO(user, updateDTO.getUsersDTO(),updateDTO.getUpdateAt());
             usersRepository.save(user);
             Optional<Descriptions> optionalDescription = descriptionsRepository
                     .findById(updateDTO.getDescriptionsDTO().getDescriptionId());
             Descriptions description = optionalDescription.get();
-            updateDescriptionWithDTO(description, updateDTO.getDescriptionsDTO());
+            updateDescriptionWithDTO(description, updateDTO.getDescriptionsDTO(), updateDTO.getUpdateAt());
             descriptionsRepository.save(description);
             Optional<CostCenter> optionalCostCenter = costCenterRepository
                     .findById(updateDTO.getCostCenterDTO().getCostCenterId());
             CostCenter costCenter = optionalCostCenter.get();
-            updateCostCenterWithDTO(costCenter, updateDTO.getCostCenterDTO());
+            updateCostCenterWithDTO(costCenter, updateDTO.getCostCenterDTO(), updateDTO.getUpdateAt());
             costCenterRepository.save(costCenter);
             Optional<Contacts> optionalContact = contactsRepository.findById(updateDTO.getContactsDTO().getContactId());
             Contacts contact = optionalContact.get();
-            updateContactWithDTO(contact, updateDTO.getContactsDTO());
+            updateContactWithDTO(contact, updateDTO.getContactsDTO(), updateDTO.getUpdateAt());
             contactsRepository.save(contact);
 
         } catch (Exception e) {
@@ -107,7 +109,7 @@ public class GeneralService {
         }
     }
 
-    private void updateItemsWithDTO(Items items, ItemsDTO itemsDTO) {
+    private void updateItemsWithDTO(Items items, ItemsDTO itemsDTO, LocalDateTime time){
         items.setNfInvoice(itemsDTO.getNfInvoice());
         items.setNumber(itemsDTO.getCode());
         items.setObservation(itemsDTO.getObservation());
@@ -117,37 +119,42 @@ public class GeneralService {
         items.setStatus(itemsDTO.getStatus());
         items.setValue(itemsDTO.getValue());
         items.setLastModification(itemsDTO.getLastModification());
+        items.setUpdateIn(time);
 
     }
 
-    private void updateUserWithDTO(Users user, UsersDTO usersDTO) {
+    private void updateUserWithDTO(Users user, UsersDTO usersDTO,LocalDateTime time) {
         user.setName(usersDTO.getUserName());
         user.setType(usersDTO.getUserType());
         user.setLastModification(usersDTO.getLastModification());
+        user.setUpdateIn(time);
     }
 
-    private void updateDescriptionWithDTO(Descriptions description, DescriptionsDTO descriptionsDTO) {
+    private void updateDescriptionWithDTO(Descriptions description, DescriptionsDTO descriptionsDTO,LocalDateTime time) {
         description.setBrand(descriptionsDTO.getBrand());
         description.setDescription(descriptionsDTO.getDescription());
         description.setLocal(descriptionsDTO.getLocation());
         description.setModel(descriptionsDTO.getModel());
         description.setSerie(descriptionsDTO.getSeries());
         description.setLastModification(descriptionsDTO.getLastModification());
+        description.setUpdateIn(time);
     }
 
-    private void updateCostCenterWithDTO(CostCenter costCenter, CostCenterDTO costCenterDTO) {
+    private void updateCostCenterWithDTO(CostCenter costCenter, CostCenterDTO costCenterDTO, LocalDateTime time) {
         costCenter.setName(costCenterDTO.getCostCenterName());
         costCenter.setIdentification(costCenterDTO.getCostCenterIdentification());
         costCenter.setInitialDate(costCenterDTO.getCostCenterStartDate());
         costCenter.setEndDate(costCenterDTO.getCostCenterEndDate());
-        costCenter.setLastModification(costCenter.getLastModification());
+        costCenter.setLastModification(costCenterDTO.getLastModification());
+        costCenter.setUpdateIn(time);
     }
 
-    private void updateContactWithDTO(Contacts contact, ContactsDTO contactsDTO) {
+    private void updateContactWithDTO(Contacts contact, ContactsDTO contactsDTO, LocalDateTime time) {
         contact.setEmail(contactsDTO.getContactEmail());
         contact.setOccupation(contactsDTO.getContactOccupation());
         contact.setPhone(contactsDTO.getContactPhone());
         contact.setLastModification(contactsDTO.getLastModification());
+        contact.setUpdateIn(time);
     }
 
 }
