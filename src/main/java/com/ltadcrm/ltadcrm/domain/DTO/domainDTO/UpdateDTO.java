@@ -18,14 +18,10 @@ public class UpdateDTO {
     private CostCenterDTO costCenterDTO;
     private ContactsDTO contactsDTO;
     private LocalDateTime updateAt = LocalDateTime.now();
-    private String userLogged ;
+    private String userLogged;
 
 
 
 
-  
-  
 
-
-   
 }
