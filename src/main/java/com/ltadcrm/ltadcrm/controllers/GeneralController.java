@@ -37,7 +37,7 @@ public class GeneralController {
 
     @GetMapping
     public ResponseEntity<List<ItemDetailDTO>> showAllDTO() throws Exception {
-        return new ResponseEntity<>(generalService.listAll(), HttpStatus.OK);
+        return new ResponseEntity<>(generalService.list(), HttpStatus.OK);
 
     }
 
@@ -46,7 +46,7 @@ public class GeneralController {
 
         try {
             updateDTO.setUserLogged(registerDTO.login());
-            generalService.updateAllItems(updateDTO);
+            generalService.update(updateDTO);
             return ResponseEntity.ok("Sucesso ao salvar items");
 
         } catch (Exception e) {
@@ -60,7 +60,7 @@ public class GeneralController {
     public ResponseEntity<String> saveMethod(@RequestBody UpdateDTO updateDTO) {
 
         try{
-            generalService.createItem(updateDTO);
+            generalService.create(updateDTO);
             return ResponseEntity.ok("dados salvos");
         }catch(Exception e){
             

@@ -81,25 +81,26 @@
   <artifactId>java-jwt</artifactId>
   <version>4.4.0</version>
 </dependency>
-   <dependency>
-        <groupId>org.mapstruct</groupId>
-        <artifactId>mapstruct</artifactId>
-        <version>1.5.3.Final</version> <!-- Use a versão mais recente disponível -->
-    </dependency>
-    
-    <!-- Para integração com o Spring -->
+
+    <!-- Dependência do MapStruct -->
     <dependency>
         <groupId>org.mapstruct</groupId>
-        <artifactId>mapstruct-jdk8</artifactId>
-        <version>1.5.3.Final</version> <!-- Use a versão mais recente disponível -->
+        <artifactId>mapstruct</artifactId>
+        <version>1.5.3.Final</version> <!-- ou a versão mais recente -->
     </dependency>
-
-    <!-- Dependência do MapStruct para gerar os mapeamentos no momento da compilação -->
+    
+    <!-- Dependência do processador de anotações do MapStruct -->
     <dependency>
         <groupId>org.mapstruct</groupId>
         <artifactId>mapstruct-processor</artifactId>
-        <version>1.5.3.Final</version> <!-- Use a versão mais recente disponível -->
+        <version>1.5.3.Final</version> <!-- ou a versão mais recente -->
         <scope>provided</scope>
+    </dependency>
+    
+    <!-- Dependências adicionais do seu projeto -->
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter</artifactId>
     </dependency>
 	</dependencies>
 

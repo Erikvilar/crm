@@ -29,7 +29,7 @@ public class Users {
     private Long id;
     @Column(name= "name_users")
     @JsonProperty("usuario")
-    private String name;
+    private String userName;
     @Column(name= "type_users")
     @JsonProperty("tipo")
     private String type;

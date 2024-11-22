@@ -4,6 +4,8 @@ package com.ltadcrm.ltadcrm.domain.DTO.domainDTO;
 
 import java.time.LocalDateTime;
 
+import com.ltadcrm.ltadcrm.domain.Items;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -20,7 +22,7 @@ public class UpdateDTO {
     private LocalDateTime updateAt = LocalDateTime.now();
     private String userLogged;
 
-
+    
 
 
 

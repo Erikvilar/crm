@@ -1,12 +1,12 @@
 package com.ltadcrm.ltadcrm.usescases;
 
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ltadcrm.ltadcrm.domain.Contacts;
@@ -15,34 +15,36 @@ import com.ltadcrm.ltadcrm.domain.Descriptions;
 import com.ltadcrm.ltadcrm.domain.Items;
 import com.ltadcrm.ltadcrm.domain.Users;
 
-import com.ltadcrm.ltadcrm.domain.DTO.domainDTO.ContactsDTO;
-import com.ltadcrm.ltadcrm.domain.DTO.domainDTO.CostCenterDTO;
-import com.ltadcrm.ltadcrm.domain.DTO.domainDTO.DescriptionsDTO;
+
 import com.ltadcrm.ltadcrm.domain.DTO.domainDTO.ItemDetailDTO;
-import com.ltadcrm.ltadcrm.domain.DTO.domainDTO.ItemsDTO;
+
 import com.ltadcrm.ltadcrm.domain.DTO.domainDTO.UpdateDTO;
-import com.ltadcrm.ltadcrm.domain.DTO.domainDTO.UsersDTO;
+
 import com.ltadcrm.ltadcrm.repositories.ContactsRepository;
 import com.ltadcrm.ltadcrm.repositories.CostCenterRepository;
 import com.ltadcrm.ltadcrm.repositories.DescriptionsRepository;
 import com.ltadcrm.ltadcrm.repositories.ItemsRepository;
 import com.ltadcrm.ltadcrm.repositories.UsersRepository;
-
+import com.ltadcrm.ltadcrm.usescases.mapper.ContactsMapper;
+import com.ltadcrm.ltadcrm.usescases.mapper.ItemsMapper;
 import com.ltadcrm.ltadcrm.usescases.strategy.ItemDetailsDTOConvertImpl;
 
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.persistence.Tuple;
 
-
 @Service
 public class GeneralService {
-
+    @Autowired
+    private ItemsMapper itemsMapper;
+    @Autowired
+    private ContactsMapper contactsMapper;
     ItemsRepository itemsRepository;
     UsersRepository usersRepository;
     CostCenterRepository costCenterRepository;
     ContactsRepository contactsRepository;
     DescriptionsRepository descriptionsRepository;
     ItemDetailsDTOConvertImpl convert;
+
 
     public GeneralService(
             ItemsRepository itemsRepository,
@@ -51,23 +53,26 @@ public class GeneralService {
             CostCenterRepository costCenterRepository,
             ContactsRepository contactsRepository,
             ItemDetailsDTOConvertImpl convert
-          
-            ) {
-  
+            
+
+    ) {
+
         this.itemsRepository = itemsRepository;
         this.usersRepository = usersRepository;
         this.descriptionsRepository = descriptionsRepository;
         this.costCenterRepository = costCenterRepository;
         this.contactsRepository = contactsRepository;
         this.convert = convert;
-
+    
     }
+    
+ 
 
-    public List<ItemDetailDTO> listAll() throws Exception {
+    public List<ItemDetailDTO> list() throws Exception {
         try {
-          
+
             List<ItemDetailDTO> dtos = new ArrayList<>();
-            for (Tuple tuple :  itemsRepository.findAllItemsDTOs()) {
+            for (Tuple tuple : itemsRepository.findAllItemsDTOs()) {
                 ItemDetailDTO dto = convert.convert(tuple);
                 dtos.add(dto);
             }
@@ -78,101 +83,81 @@ public class GeneralService {
     }
 
     // on refatoring proccess
-    public void updateAllItems(UpdateDTO updateDTO) throws Exception {
+    public void update(UpdateDTO updateDTO) throws Exception {
         try {
-           
-            Optional<Items> optionalItem = itemsRepository.findById(updateDTO.getItemsDTO().getItemId());
-            Items items = optionalItem.get();
 
-            updateItemsWithDTO(items, updateDTO.getItemsDTO(), updateDTO.getUpdateAt());
+            Items items = itemsMapper.toDomain(updateDTO.getItemsDTO());
             itemsRepository.save(items);
-            Optional<Users> optionalUser = usersRepository.findById(updateDTO.getUsersDTO().getId());
-            Users user = optionalUser.get();
-            updateUserWithDTO(user, updateDTO.getUsersDTO(),updateDTO.getUpdateAt());
-            usersRepository.save(user);
-            Optional<Descriptions> optionalDescription = descriptionsRepository
-                    .findById(updateDTO.getDescriptionsDTO().getDescriptionId());
-            Descriptions description = optionalDescription.get();
-            updateDescriptionWithDTO(description, updateDTO.getDescriptionsDTO(), updateDTO.getUpdateAt());
-            descriptionsRepository.save(description);
-            Optional<CostCenter> optionalCostCenter = costCenterRepository
-                    .findById(updateDTO.getCostCenterDTO().getCostCenterId());
-            CostCenter costCenter = optionalCostCenter.get();
-            updateCostCenterWithDTO(costCenter, updateDTO.getCostCenterDTO(), updateDTO.getUpdateAt());
-            costCenterRepository.save(costCenter);
-            Optional<Contacts> optionalContact = contactsRepository.findById(updateDTO.getContactsDTO().getContactId());
-            Contacts contact = optionalContact.get();
-            updateContactWithDTO(contact, updateDTO.getContactsDTO(), updateDTO.getUpdateAt());
-            contactsRepository.save(contact);
-
+            Contacts contacts = contactsMapper.toDomain(updateDTO.getContactsDTO());
+            contactsRepository.save(contacts);
+            Users users 
+            
+        
         } catch (Exception e) {
             throw new Exception("Erro ao tentar atualizar dados: " + e.getMessage(), e);
         }
     }
 
-
-
-    public void createItem(UpdateDTO updateDTO) throws Exception {
+    public void create(UpdateDTO updateDTO) throws Exception {
         try {
             // Criar a entidade Item
             Items item = new Items();
-            item.setNumber(updateDTO.getItemsDTO().getCode());
+            item.setNumber(updateDTO.getItemsDTO().getNumber());
             item.setObservation(updateDTO.getItemsDTO().getObservation());
             item.setPathImage(updateDTO.getItemsDTO().getImagePath());
             item.setSde(updateDTO.getItemsDTO().getSde());
-            item.setOrder(updateDTO.getItemsDTO().getOrderOrigin());
+            item.setOrder(updateDTO.getItemsDTO().getOrder());
             item.setStatus(updateDTO.getItemsDTO().getStatus());
             item.setNfInvoice(updateDTO.getItemsDTO().getNfInvoice());
             item.setValue(updateDTO.getItemsDTO().getValue());
             item.setLastModification(updateDTO.getItemsDTO().getLastModification());
             item.setUpdateIn(updateDTO.getUpdateAt());
-    
+
             // Criar e associar as entidades relacionadas sem IDs
             Users user = new Users();
-            user.setName(updateDTO.getUsersDTO().getUserName());
+            user.setUserName(updateDTO.getUsersDTO().getUserName());
             user.setType(updateDTO.getUsersDTO().getUserType());
             user.setLastModification(updateDTO.getUsersDTO().getLastModification());
-    
+
             Descriptions description = new Descriptions();
             description.setBrand(updateDTO.getDescriptionsDTO().getBrand());
             description.setDescription(updateDTO.getDescriptionsDTO().getDescription());
-            description.setLocal(updateDTO.getDescriptionsDTO().getLocation());
+            description.setLocal(updateDTO.getDescriptionsDTO().getLocal());
             description.setModel(updateDTO.getDescriptionsDTO().getModel());
-            description.setSerie(updateDTO.getDescriptionsDTO().getSeries());
+            description.setSerie(updateDTO.getDescriptionsDTO().getSerial());
             description.setLastModification(updateDTO.getDescriptionsDTO().getLastModification());
-    
+
             CostCenter costCenter = new CostCenter();
-            costCenter.setName(updateDTO.getCostCenterDTO().getCostCenterName());
-            costCenter.setIdentification(updateDTO.getCostCenterDTO().getCostCenterIdentification());
-            costCenter.setInitialDate(updateDTO.getCostCenterDTO().getCostCenterStartDate());
-            costCenter.setEndDate(updateDTO.getCostCenterDTO().getCostCenterEndDate());
+            costCenter.setName(updateDTO.getCostCenterDTO().getName());
+            costCenter.setIdentification(updateDTO.getCostCenterDTO().getIdentification());
+            costCenter.setInitialDate(updateDTO.getCostCenterDTO().getStartDate());
+            costCenter.setEndDate(updateDTO.getCostCenterDTO().getEndDate());
             costCenter.setLastModification(updateDTO.getCostCenterDTO().getLastModification());
-    
+
             Contacts contact = new Contacts();
-            contact.setEmail(updateDTO.getContactsDTO().getContactEmail());
-            contact.setOccupation(updateDTO.getContactsDTO().getContactOccupation());
-            contact.setPhone(updateDTO.getContactsDTO().getContactPhone());
+            contact.setEmail(updateDTO.getContactsDTO().getEmail());
+            contact.setOccupation(updateDTO.getContactsDTO().getOccupation());
+            contact.setPhone(updateDTO.getContactsDTO().getPhone());
             contact.setLastModification(updateDTO.getContactsDTO().getLastModification());
-    
+
             // Associar as entidades criadas
             item.setUsers(user);
             item.setDescriptions(description);
             item.setCostCenter(costCenter);
-          
-    
+
             // Salvar as entidades no banco de dados
             usersRepository.save(user);
             descriptionsRepository.save(description);
             costCenterRepository.save(costCenter);
             contactsRepository.save(contact);
             itemsRepository.save(item);
-    
+
         } catch (Exception e) {
             throw new Exception("Erro ao tentar salvar os dados: " + e.getMessage(), e);
         }
     }
 
-   public void deleteItem(Long id) throws Exception {
+    public void deleteItem(Long id) throws Exception {
         Optional<Items> optionalItem = itemsRepository.findById(id);
 
         if (optionalItem.isPresent()) {
@@ -182,59 +167,6 @@ public class GeneralService {
             // Caso o item não seja encontrado, lança uma exceção
             throw new EntityNotFoundException("Item não encontrado com o ID: " + id);
         }
-    }
-
-
-
-
-
-    private void updateItemsWithDTO(Items items, ItemsDTO itemsDTO, LocalDateTime time){
-        items.setNfInvoice(itemsDTO.getNfInvoice());
-        items.setNumber(itemsDTO.getCode());
-        items.setObservation(itemsDTO.getObservation());
-        items.setPathImage(itemsDTO.getImagePath());
-        items.setOrder(itemsDTO.getOrderOrigin());
-        items.setSde(itemsDTO.getSde());
-        items.setStatus(itemsDTO.getStatus());
-        items.setValue(itemsDTO.getValue());
-        items.setLastModification(itemsDTO.getLastModification());
-        items.setUpdateIn(time);
-     
-
-    }
-
-    private void updateUserWithDTO(Users user, UsersDTO usersDTO,LocalDateTime time) {
-        user.setName(usersDTO.getUserName());
-        user.setType(usersDTO.getUserType());
-        user.setLastModification(usersDTO.getLastModification());
-        user.setUpdateIn(time);
-    }
-
-    private void updateDescriptionWithDTO(Descriptions description, DescriptionsDTO descriptionsDTO,LocalDateTime time) {
-        description.setBrand(descriptionsDTO.getBrand());
-        description.setDescription(descriptionsDTO.getDescription());
-        description.setLocal(descriptionsDTO.getLocation());
-        description.setModel(descriptionsDTO.getModel());
-        description.setSerie(descriptionsDTO.getSeries());
-        description.setLastModification(descriptionsDTO.getLastModification());
-        description.setUpdateIn(time);
-    }
-
-    private void updateCostCenterWithDTO(CostCenter costCenter, CostCenterDTO costCenterDTO, LocalDateTime time) {
-        costCenter.setName(costCenterDTO.getCostCenterName());
-        costCenter.setIdentification(costCenterDTO.getCostCenterIdentification());
-        costCenter.setInitialDate(costCenterDTO.getCostCenterStartDate());
-        costCenter.setEndDate(costCenterDTO.getCostCenterEndDate());
-        costCenter.setLastModification(costCenterDTO.getLastModification());
-        costCenter.setUpdateIn(time);
-    }
-
-    private void updateContactWithDTO(Contacts contact, ContactsDTO contactsDTO, LocalDateTime time) {
-        contact.setEmail(contactsDTO.getContactEmail());
-        contact.setOccupation(contactsDTO.getContactOccupation());
-        contact.setPhone(contactsDTO.getContactPhone());
-        contact.setLastModification(contactsDTO.getLastModification());
-        contact.setUpdateIn(time);
     }
 
 }

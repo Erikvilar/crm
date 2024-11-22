@@ -1,23 +1,18 @@
 package com.ltadcrm.ltadcrm.domain.DTO.domainDTO;
 
 import java.time.LocalDateTime;
-import java.util.Date;
-
-import org.hibernate.annotations.UpdateTimestamp;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.ltadcrm.ltadcrm.domain.Items;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 @Getter
 @Setter
+@AllArgsConstructor
 public class ItemsDTO{
 
     @JsonProperty("id_item")
@@ -27,7 +22,7 @@ public class ItemsDTO{
     private String nfInvoice;
 
     @JsonProperty("codigo_item")
-    private String code;
+    private String number;
 
     @JsonProperty("observacao_item")
     private String observation;
@@ -36,7 +31,7 @@ public class ItemsDTO{
     private String imagePath;
 
     @JsonProperty("pedido_origem")
-    private String orderOrigin;
+    private String order;
 
     @JsonProperty("sde_item")
     private Long sde;
@@ -46,11 +41,16 @@ public class ItemsDTO{
 
     @JsonProperty("valor_item")
     private Double value;
+
     @JsonProperty("lastModify")
     private String lastModification;
+
     @JsonProperty("updateIn")
-    @UpdateTimestamp
     private LocalDateTime updateIn;
+
+    /*
+     * @Metodo de conversão de entidade para dto
+     */
 
 
  
