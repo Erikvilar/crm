@@ -4,7 +4,7 @@ package com.ltadcrm.ltadcrm.domain.DTO.domainDTO;
 import java.time.LocalDateTime;
 import java.util.Date;
 
-import org.hibernate.annotations.UpdateTimestamp;
+
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

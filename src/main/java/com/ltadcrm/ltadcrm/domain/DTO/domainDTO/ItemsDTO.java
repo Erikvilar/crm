@@ -2,7 +2,7 @@ package com.ltadcrm.ltadcrm.domain.DTO.domainDTO;
 
 import java.time.LocalDateTime;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.ltadcrm.ltadcrm.domain.Items;
+
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,7 +16,7 @@ import lombok.Setter;
 public class ItemsDTO{
 
     @JsonProperty("id_item")
-    private Long itemId;
+    private Long id;
 
     @JsonProperty("nf_invoice_item")
     private String nfInvoice;
@@ -28,7 +28,7 @@ public class ItemsDTO{
     private String observation;
 
     @JsonProperty("caminho_imagem_item")
-    private String imagePath;
+    private String pathImage;
 
     @JsonProperty("pedido_origem")
     private String order;
@@ -48,9 +48,6 @@ public class ItemsDTO{
     @JsonProperty("updateIn")
     private LocalDateTime updateIn;
 
-    /*
-     * @Metodo de conversão de entidade para dto
-     */
 
 
  

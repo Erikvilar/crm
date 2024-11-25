@@ -16,31 +16,25 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Entity(name = "Descriptions")
+@Entity(name = "Details")
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "tb_description")
+@Table(name = "tb_details")
 @Data
-public class Descriptions {
+public class Details {
   
-    @Column(name = "id_description")
-    @JsonProperty("id")
+    @Column(name = "id_details")
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "model_description")
-    @JsonProperty("modelo")
+    @Column(name = "model_details")
     private String model;
-    @Column(name = "brand_description")
-    @JsonProperty("marca")
+    @Column(name = "brand_details")
     private String brand;
-    @Column(name = "serie_description")
-    @JsonProperty("serie")
-    private String serie;
-    @Column(name = "description_description")
-    @JsonProperty("descrição")
+    @Column(name = "serial_details")
+    private String serial;
+    @Column(name = "details_details")
     private String description;
-    @Column(name = "local_description")
-    @JsonProperty("localização")
+    @Column(name = "local_details")
     private String local;
      @Column(name = "last_modify")
     private String lastModification;

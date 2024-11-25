@@ -1,11 +1,11 @@
-package com.ltadcrm.ltadcrm.usescases.strategy;
+package com.ltadcrm.ltadcrm.gateway.strategy;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.Date;
 
 import com.ltadcrm.ltadcrm.domain.DTO.domainDTO.ItemDetailDTO;
-import com.ltadcrm.ltadcrm.usescases.interfaces.ItemDetailsDTOConvert;
+import com.ltadcrm.ltadcrm.gateway.interfaces.ItemDetailsDTOConvert;
 
 import jakarta.persistence.Tuple;
 import org.springframework.stereotype.Service;

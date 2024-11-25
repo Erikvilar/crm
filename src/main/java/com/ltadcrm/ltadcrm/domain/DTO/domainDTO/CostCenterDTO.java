@@ -24,7 +24,7 @@ public class CostCenterDTO {
   private String identification;
 
   @JsonProperty("data_inicio_centro_custo")
-  private Date startDate;
+  private Date initialDate;
 
   @JsonProperty("data_fim_centro_custo")
   private Date endDate;
@@ -37,7 +37,7 @@ public class CostCenterDTO {
     id = costCenter.getId();
     name = costCenter.getName();
     identification = costCenter.getIdentification();
-    startDate = costCenter.getInitialDate();
+    initialDate = costCenter.getInitialDate();
     endDate = costCenter.getEndDate();
     lastModification = costCenter.getLastModification();
     updateIn = LocalDateTime.now();

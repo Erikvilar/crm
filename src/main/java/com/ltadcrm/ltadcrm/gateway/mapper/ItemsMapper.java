@@ -1,6 +1,8 @@
-package com.ltadcrm.ltadcrm.usescases.mapper;
+package com.ltadcrm.ltadcrm.gateway.mapper;
 
 import org.mapstruct.Mapper;
+
+import org.mapstruct.MappingTarget;
 import org.mapstruct.factory.Mappers;
 
 import com.ltadcrm.ltadcrm.domain.Items;
@@ -9,7 +11,8 @@ import com.ltadcrm.ltadcrm.domain.DTO.domainDTO.ItemsDTO;
 public interface ItemsMapper {
     ItemsMapper INSTANCE = Mappers.getMapper(ItemsMapper.class);
 
-    Items toDomain(ItemsDTO dto);
 
-    ItemsDTO toDTO(Items item);
+    Items updateDomainFromDTO(@MappingTarget Items item, ItemsDTO dto);
+
+
 }

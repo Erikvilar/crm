@@ -16,7 +16,7 @@ public class UpdateDTO {
  
     private ItemsDTO itemsDTO;
     private UsersDTO usersDTO;
-    private DescriptionsDTO descriptionsDTO;
+    private DetailsDTO detailsDTO;
     private CostCenterDTO costCenterDTO;
     private ContactsDTO contactsDTO;
     private LocalDateTime updateAt = LocalDateTime.now();

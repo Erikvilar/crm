@@ -2,8 +2,6 @@ package com.ltadcrm.ltadcrm.domain.DTO.domainDTO;
 
 import java.time.LocalDateTime;
 
-import org.hibernate.annotations.UpdateTimestamp;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ltadcrm.ltadcrm.domain.Users;
 
@@ -26,14 +24,7 @@ public class UsersDTO {
         @JsonProperty("lastModify")
         private String lastModification;
         @JsonProperty("updateIn")
-        
         private LocalDateTime updateIn;
 
-        public UsersDTO(Users users){
-                id = users.getId();
-                userName = users.getUserName();
-                userType = users.getType();
-                lastModification = users.getLastModification();
-                updateIn = LocalDateTime.now();
-        }
+      
 }

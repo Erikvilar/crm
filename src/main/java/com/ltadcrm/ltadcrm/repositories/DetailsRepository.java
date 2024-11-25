@@ -5,9 +5,9 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.ltadcrm.ltadcrm.domain.CostCenter;
+import com.ltadcrm.ltadcrm.domain.Details;
 @Repository
-public interface CostCenterRepository extends JpaRepository<CostCenter, Long>{
+public interface DetailsRepository extends JpaRepository<Details, Long>{
     
-    Optional<CostCenter> findAllById(Long id);
+    Optional<Details> findAllById(Long id);
 }

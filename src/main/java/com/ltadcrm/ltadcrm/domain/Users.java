@@ -32,7 +32,7 @@ public class Users {
     private String userName;
     @Column(name= "type_users")
     @JsonProperty("tipo")
-    private String type;
+    private String userType;
     @Column(name = "last_modify")
     private String lastModification;
     @Column(name = "update_in")

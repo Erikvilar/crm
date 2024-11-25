@@ -6,10 +6,14 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ltadcrm.ltadcrm.domain.DTO.authentication.RegisterDTO;
 import com.ltadcrm.ltadcrm.domain.DTO.domainDTO.ItemDetailDTO;
 import com.ltadcrm.ltadcrm.domain.DTO.domainDTO.UpdateDTO;
-import com.ltadcrm.ltadcrm.usescases.GeneralService;
+import com.ltadcrm.ltadcrm.gateway.CreateAllIEntities;
+import com.ltadcrm.ltadcrm.gateway.DeleteAllEntities;
+import com.ltadcrm.ltadcrm.gateway.FindAllEntities;
+import com.ltadcrm.ltadcrm.gateway.UpdateAllEntities;
 
-import jakarta.persistence.EntityNotFoundException;
+
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 
@@ -19,65 +23,38 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-
-
+import org.springframework.web.bind.annotation.PutMapping;
 
 @RequestMapping("general")
 @RestController
-
+@RequiredArgsConstructor
 public class GeneralController {
 
-    GeneralService generalService;
-
-    public GeneralController(GeneralService generalService) {
-        this.generalService = generalService;
-    }
+    private final FindAllEntities findAllEntities;
+    private final DeleteAllEntities deleteAllEntities;
+    private final CreateAllIEntities createAllIEntities;
+    private final UpdateAllEntities updateAllEntities;
 
     @GetMapping
     public ResponseEntity<List<ItemDetailDTO>> showAllDTO() throws Exception {
-        return new ResponseEntity<>(generalService.list(), HttpStatus.OK);
+        return new ResponseEntity<>(findAllEntities.list(), HttpStatus.OK);
+    }
+
+    @PostMapping("/create")
+    public ResponseEntity<String> saveMethod(@RequestBody UpdateDTO updateDTO) {
+        return createAllIEntities.create(updateDTO);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteItem(@PathVariable("id") Long id) {
+        return deleteAllEntities.deleteItem(id);
 
     }
 
     @PutMapping("/update")
     public ResponseEntity<String> postMethodName(@RequestBody @Valid UpdateDTO updateDTO, RegisterDTO registerDTO) {
+        return updateAllEntities.update(updateDTO);
 
-        try {
-            updateDTO.setUserLogged(registerDTO.login());
-            generalService.update(updateDTO);
-            return ResponseEntity.ok("Sucesso ao salvar items");
-
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Erro ao atualizar item: " + e.getMessage());
-        }
-
-    }
-
-    @PostMapping("/save")
-    public ResponseEntity<String> saveMethod(@RequestBody UpdateDTO updateDTO) {
-
-        try{
-            generalService.create(updateDTO);
-            return ResponseEntity.ok("dados salvos");
-        }catch(Exception e){
-            
-            return ResponseEntity.badRequest().body("ocorreu um erro "+e);
-            
-        }
-    }   
-    
- @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteItem(@PathVariable("id") Long id) {
-        try {
-           generalService.deleteItem(id); // Chama o método do serviço para deletar o item
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).build(); // Retorna 204 No Content em caso de sucesso
-        } catch (EntityNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Item não encontrado"); // Retorna 404 se o item não for encontrado
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao tentar deletar item: " + e.getMessage());
-        }
     }
 }
