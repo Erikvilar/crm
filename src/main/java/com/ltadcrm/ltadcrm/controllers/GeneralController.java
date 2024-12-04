@@ -3,7 +3,6 @@ package com.ltadcrm.ltadcrm.controllers;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ltadcrm.ltadcrm.domain.DTO.authentication.RegisterDTO;
 import com.ltadcrm.ltadcrm.domain.DTO.domainDTO.ItemDetailDTO;
 import com.ltadcrm.ltadcrm.domain.DTO.domainDTO.UpdateDTO;
 import com.ltadcrm.ltadcrm.gateway.CreateAllIEntities;
@@ -25,8 +24,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-
-@RequestMapping("general")
+ @RequestMapping("general")
 @RestController
 @RequiredArgsConstructor
 public class GeneralController {
@@ -47,13 +45,13 @@ public class GeneralController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteItem(@PathVariable("id") Long id) {
+    public ResponseEntity<String> deleteItem(@PathVariable("id") List<Long> id) {
         return deleteAllEntities.deleteItem(id);
 
     }
 
     @PutMapping("/update")
-    public ResponseEntity<String> postMethodName(@RequestBody @Valid UpdateDTO updateDTO, RegisterDTO registerDTO) {
+    public ResponseEntity<String> postMethodName(@RequestBody @Valid UpdateDTO updateDTO) {
         return updateAllEntities.update(updateDTO);
 
     }

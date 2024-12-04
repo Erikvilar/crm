@@ -1,6 +1,8 @@
 package com.ltadcrm.ltadcrm.gateway;
 
-import java.util.Optional;
+import java.util.List;
+
+
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -16,16 +18,16 @@ public class DeleteAllEntities {
 
     private final ItemsRepository itemsRepository;
 
-    public ResponseEntity<String> deleteItem(Long id) {
+    public ResponseEntity<String> deleteItem(List<Long> id) {
 
-        Optional<Items> optionalItem = itemsRepository.findById(id);
+       List<Items> rows = itemsRepository.findAllById(id);
         try {
-            if (optionalItem.isPresent()) {
-                itemsRepository.delete(optionalItem.get());
+            if (!rows.isEmpty()) {
+                itemsRepository.deleteAll(rows);
             }
-            return ResponseEntity.ok("Linha " + optionalItem + " foi deletada");
+            return ResponseEntity.ok("");  
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body("Ocorreu um erro ao deletar " + e);
+            return ResponseEntity.badRequest().body("null");
         }
 
     }

@@ -83,7 +83,9 @@ public class CreateAllIEntities {
             costCenterRepository.save(costCenter);
             contactsRepository.save(contact);
             itemsRepository.save(item);
+         
             return ResponseEntity.ok("Item criado");
+      
 
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Ocorreu um erro ao criar o item "+e);
