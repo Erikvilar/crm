@@ -3,8 +3,8 @@ package com.ltadcrm.ltadcrm.controllers;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ltadcrm.ltadcrm.domain.DTO.domainDTO.ItemDetailDTO;
-import com.ltadcrm.ltadcrm.domain.DTO.domainDTO.UpdateDTO;
+import com.ltadcrm.ltadcrm.DTO.domainDTO.ItemDetailDTO;
+import com.ltadcrm.ltadcrm.DTO.domainDTO.UpdateDTO;
 import com.ltadcrm.ltadcrm.gateway.CreateAllIEntities;
 import com.ltadcrm.ltadcrm.gateway.DeleteAllEntities;
 import com.ltadcrm.ltadcrm.gateway.FindAllEntities;
@@ -36,7 +36,7 @@ public class GeneralController {
 
     @GetMapping
     public ResponseEntity<List<ItemDetailDTO>> showAllDTO() throws Exception {
-        return new ResponseEntity<>(findAllEntities.list(), HttpStatus.OK);
+        return new ResponseEntity<>(findAllEntities(), HttpStatus.OK);
     }
 
     @PostMapping("/create")

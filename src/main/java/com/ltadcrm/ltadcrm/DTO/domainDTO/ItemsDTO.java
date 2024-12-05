@@ -1,4 +1,4 @@
-package com.ltadcrm.ltadcrm.domain.DTO.domainDTO;
+package com.ltadcrm.ltadcrm.DTO.domainDTO;
 
 import java.time.LocalDateTime;
 import com.fasterxml.jackson.annotation.JsonProperty;

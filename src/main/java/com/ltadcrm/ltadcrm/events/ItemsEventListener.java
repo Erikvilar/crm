@@ -14,8 +14,6 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor    
 public class ItemsEventListener {
 
-    
-
      @EventListener
     public void itemUpdated(ItemUpdatedEvent event) {
         log.info("Dados do item, {}", event);

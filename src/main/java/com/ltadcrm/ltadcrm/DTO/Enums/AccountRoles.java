@@ -1,4 +1,4 @@
-package com.ltadcrm.ltadcrm.domain.Enums;
+package com.ltadcrm.ltadcrm.DTO.Enums;
 
 public enum AccountRoles {
     ADMIN("admin"),

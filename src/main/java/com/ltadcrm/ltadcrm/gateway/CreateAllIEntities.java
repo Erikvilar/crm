@@ -1,20 +1,18 @@
 package com.ltadcrm.ltadcrm.gateway;
 
-
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.ltadcrm.ltadcrm.DTO.domainDTO.UpdateDTO;
 import com.ltadcrm.ltadcrm.domain.Contacts;
 import com.ltadcrm.ltadcrm.domain.CostCenter;
-import com.ltadcrm.ltadcrm.domain.Details;
-import com.ltadcrm.ltadcrm.domain.Items;
+
+import com.ltadcrm.ltadcrm.domain.InventoryItems;
 import com.ltadcrm.ltadcrm.domain.Users;
-import com.ltadcrm.ltadcrm.domain.DTO.domainDTO.UpdateDTO;
 import com.ltadcrm.ltadcrm.repositories.ContactsRepository;
 import com.ltadcrm.ltadcrm.repositories.CostCenterRepository;
-import com.ltadcrm.ltadcrm.repositories.DetailsRepository;
-import com.ltadcrm.ltadcrm.repositories.ItemsRepository;
+
+import com.ltadcrm.ltadcrm.repositories.InventoryItemsRepository;
 import com.ltadcrm.ltadcrm.repositories.UsersRepository;
 
 
@@ -26,26 +24,28 @@ public class CreateAllIEntities {
 
     
 
-    private final ItemsRepository itemsRepository;
+    private final InventoryItemsRepository inventoryRepository;
     private final UsersRepository usersRepository;
     private final CostCenterRepository costCenterRepository;
-    private final DetailsRepository detailsRepository;
     private final ContactsRepository contactsRepository;
 
     public ResponseEntity<String> create(UpdateDTO updateDTO) {
         try {
  
-            Items item = new Items();
-            item.setNumber(updateDTO.getItemsDTO().getNumber());
-            item.setObservation(updateDTO.getItemsDTO().getObservation());
-            item.setPathImage(updateDTO.getItemsDTO().getPathImage());
-            item.setSde(updateDTO.getItemsDTO().getSde());
-            item.setOrder(updateDTO.getItemsDTO().getOrder());
-            item.setStatus(updateDTO.getItemsDTO().getStatus());
-            item.setNfInvoice(updateDTO.getItemsDTO().getNfInvoice());
-            item.setValue(updateDTO.getItemsDTO().getValue());
-            item.setLastModification(updateDTO.getItemsDTO().getLastModification());
-            item.setUpdateIn(updateDTO.getUpdateAt());
+
+
+            InventoryItems inventory = new InventoryItems();
+     
+            inventory.setCodePatrimony(updateDTO.getItemsDTO().getNumber());
+            inventory.setEspecification(updateDTO.getItemsDTO().getObservation());
+            inventory.setPathImage(updateDTO.getItemsDTO().getPathImage());
+            inventory.setSde(updateDTO.getItemsDTO().getSde());
+            inventory.setOrder(updateDTO.getItemsDTO().getOrder());
+            inventory.setStatus(updateDTO.getItemsDTO().getStatus());
+            inventory.setNfInvoice(updateDTO.getItemsDTO().getNfInvoice());
+            inventory.setUnityValue(updateDTO.getItemsDTO().getValue());
+            inventory.setUserLastupdate(updateDTO.getItemsDTO().getLastModification());
+            inventory.setUpdateIn(updateDTO.getUpdateAt());
 
      
             Users user = new Users();
@@ -53,13 +53,6 @@ public class CreateAllIEntities {
             user.setUserType(updateDTO.getUsersDTO().getUserType());
             user.setLastModification(updateDTO.getUsersDTO().getLastModification());
 
-            Details description = new Details();
-            description.setBrand(updateDTO.getDetailsDTO().getBrand());
-            description.setDescription(updateDTO.getDetailsDTO().getDescription());
-            description.setLocal(updateDTO.getDetailsDTO().getLocal());
-            description.setModel(updateDTO.getDetailsDTO().getModel());
-            description.setSerial(updateDTO.getDetailsDTO().getSerial());
-            description.setLastModification(updateDTO.getDetailsDTO().getLastModification());
 
             CostCenter costCenter = new CostCenter();
             costCenter.setName(updateDTO.getCostCenterDTO().getName());
@@ -74,15 +67,15 @@ public class CreateAllIEntities {
             contact.setPhone(updateDTO.getContactsDTO().getPhone());
             contact.setLastModification(updateDTO.getContactsDTO().getLastModification());
 
-            item.setUsers(user);
-            item.setDetails(description);
-            item.setCostCenter(costCenter);
+            inventory.setUsers(user);
+   
+            inventory.setCostCenter(costCenter);
 
             usersRepository.save(user);
-            detailsRepository.save(description);
+
             costCenterRepository.save(costCenter);
             contactsRepository.save(contact);
-            itemsRepository.save(item);
+            inventoryRepository.save(inventory);
          
             return ResponseEntity.ok("Item criado");
       
